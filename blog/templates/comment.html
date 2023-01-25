@@ -1,0 +1,79 @@
+{% extends 'layout.html' %}<!--繼承-->
+{% block content %}
+    {% if current_user.is_authenticated%}
+    <!-- ======= Contact Us Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+        <div class="section-title">
+          <h2>Add Comment</h2>
+          <p>新增評論</p>
+        </div>
+        <form action="" method="post" role="form" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          <div class="row justify-content-center">
+            <div class="col-lg-4 d-flex align-items-center" data-aos="fade-up" data-aos-delay="100">
+              <div class="info">
+                <div class="username">
+                  <i class="bi bi-person"></i>
+                  <p style="font-size:28px">{{title}}</p>
+                </div>
+                
+                <div class="rate">
+                  <i class="bi bi-star"></i>
+                  <p>{{form.rate(placeholder="餐廳星級",class="form-control")}}</p>
+                  <p>{{form.rate.errors[0]}}</p>
+                </div>
+
+                <div class="comment">
+                  <i class="bi bi-file-text"></i>
+                  <p>{{form.post(placeholder="餐廳評論",class="form-control")}}</p>
+                  <p>{{form.post.errors[0]}}</p>
+                </div>
+
+                <div class="text-center submitBtn"><button type="submit">新增</button> <a href="#faq"><button type="button">查看評論</button></a></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section><!-- End Contact Us Section -->
+    {%endif%}
+
+    <!-- ======= F.A.Q Section ======= -->
+    <section id="faq" class="faq section-bg">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Comment</h2>
+          <p>評論</p>
+        </div>
+        
+        <ul class="faq-list" data-aos="fade-up" data-aos-delay="100">
+
+          {%for x in data%}
+          <li>
+            <div class="row">
+              {% if x.author == current_user or current_user.username == 'admin'%}
+              <div class="col-md-auto submitBtn" data-aos="fade-up" data-aos-delay="100">
+                <button type="submit" onclick="location.href='/alter_comment?id={{x.id}}&title={{title}}'">修改</button>
+                <button type="submit" onclick="if(confirm('確定刪除嗎?')){return location.href='/delete_comment?id={{x.id}}&title={{title}}';}">刪除</button>
+              </div>
+              {%endif%}
+              <div class="col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div data-bs-toggle="collapse" class="collapsed question" href="#faq{{x.id}}"> {{x.author.username}}-{{x.rated}}星 ({{x.date_posted}})<i class="bi bi-chevron-down icon-show"></i><i class="bi bi-chevron-up icon-close"></i>
+                </div>
+                <div id="faq{{x.id}}" class="collapse" data-bs-parent=".faq-list">
+                  <p>
+                    {{x.content}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </li>
+          {%endfor%}
+          
+        </ul>
+
+      </div>
+    </section><!-- End F.A.Q Section -->
+  {% endblock content %}

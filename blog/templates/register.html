@@ -1,0 +1,43 @@
+{% extends 'layout.html' %}<!--繼承-->
+{% block content %}
+    <!-- ======= Contact Us Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Register</h2>
+          <p>註冊會員帳號</p>
+        </div>
+        <form action="" method="post" role="form">
+          {{ form.hidden_tag() }}
+          <div class="row justify-content-center">
+            <div class="col-lg-4 d-flex align-items-center" data-aos="fade-up" data-aos-delay="100">
+              <div class="info">
+                <div class="username">
+                  <i class="bi bi-person"></i>
+                  <p>{{form.username (placeholder="用戶名稱",class="form-control")}}</p>
+                </div>
+
+                <div class="email">
+                  <i class="bi bi-envelope"></i>
+                  <p>{{form.email (placeholder="信箱",class="form-control")}}</p>
+                </div>
+
+                <div class="phone">
+                  <i class="bi bi-lock"></i>
+                  <p>{{form.password (placeholder="密碼",class="form-control")}}</p>
+                </div>
+
+                <div class="phone">
+                  <i class="bi bi-lock"></i>
+                  <p>{{form.confirm_password (placeholder="確認密碼",class="form-control")}}</p>
+                </div>
+
+                <div class="text-center submitBtn"><button type="submit">註冊</button></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section><!-- End Contact Us Section -->
+  {% endblock content %}

@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}<!--繼承-->
+{% block content %}
+    <!-- ======= Contact Us Section ======= -->
+    <section id="contact" class="contact">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Edit Restaurant Data</h2>
+          <p>修改餐廳資料</p>
+        </div>
+        <form action="" method="post" role="form" enctype="multipart/form-data">
+          {{ form.hidden_tag() }}
+          <div class="row justify-content-center">
+            <div class="col-lg-4 d-flex align-items-center" data-aos="fade-up" data-aos-delay="100">
+              <div class="info">
+                <div class="username">
+                  <i class="bi bi-person"></i>
+                  <p>{{form.title(placeholder="餐廳名稱",class="form-control",disabled=True)}}</p>
+                  {{form.title(placeholder="餐廳名稱",class="form-control",type="hidden")}}
+                  <p>{{form.title.errors[0]}}</p>
+                </div>
+
+                <div class="email">
+                  <i class="bi bi-geo-alt"></i>
+                  <p>{{form.location(placeholder="餐廳位置",class="form-control")}}</p>
+                  <p>{{form.location.errors[0]}}</p>
+                </div>
+
+                <div class="phone">
+                  <i class="bi bi-coin"></i>
+                  <p>{{form.money(placeholder="餐廳價位",class="form-control")}}</p>
+                  <p>{{form.money.errors[0]}}</p>
+                </div>
+
+                <div class="phone">
+                  <i class="bi bi-phone"></i>
+                  <p>{{form.tele(placeholder="餐廳電話",class="form-control")}}</p>
+                  <p>{{form.tele.errors[0]}}</p>
+                </div>
+
+                <div class="username">
+                  <i class="bi bi-image"></i>
+                  <p>{{form.image(placeholder="餐廳相片",class="form-control")}}</p>
+                  <p>{{form.image.errors[0]}}</p>
+                </div>
+
+                <div class="username">
+                  <i class="bi bi-file-text"></i>
+                  <p>{{form.description(placeholder="餐廳簡述",class="form-control")}}</p>
+                  <p>{{form.description.errors[0]}}</p>
+                </div>
+
+                <div class="text-center submitBtn"><button type="submit">存檔</button></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </section><!-- End Contact Us Section -->
+  {% endblock content %}

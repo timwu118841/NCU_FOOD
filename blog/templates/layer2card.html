@@ -1,0 +1,116 @@
+{% extends 'layout.html' %}<!--繼承-->
+{% block content %}
+  <div class="container d-flex align-items-center justify-content-between" style="padding:20px 0px">
+    <nav id="navbar" class="navbar">
+      <ul>
+        {% if current_user.is_authenticated%}
+        <li><a class="getstarted scrollto" href="/r_sumit">新增餐廳</a></li>
+        {%endif%}
+        
+        <li class="dropdown"><a href="#"><span>排序</span> <i class="bi bi-chevron-down"></i></a>
+          <ul id="portfolio-flters">
+            <li class="dropdown"><a href="#"><span>價錢</span> <i class="bi bi-chevron-right"></i></a>
+              <ul id="portfolio-flters">
+                <li onclick="sort('money', 'asc')"><a href="#">由低到高</a></li>
+                <li onclick="sort('money', 'desc')"><a href="#">由高到低</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>星級</span> <i class="bi bi-chevron-right"></i></a>
+              <ul id="portfolio-flters">
+                <li onclick="sort('rated', 'asc')"><a href="#">由低到高</a></li>
+                <li onclick="sort('rated', 'desc')"><a href="#">由高到低</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>新增時間</span> <i class="bi bi-chevron-right"></i></a>
+              <ul id="portfolio-flters">
+                <li onclick="sort('time', 'asc')"><a href="#">由舊到新</a></li>
+                <li onclick="sort('time', 'desc')"><a href="#">由新到舊</a></li>
+              </ul>
+            </li>
+          </ul>
+        </li>
+        <li class="dropdown"><a href="#"><span>篩選</span> <i class="bi bi-chevron-down"></i></a>
+          <ul>
+            <li class="dropdown"><a href="#"><span>價錢</span> <i class="bi bi-chevron-right"></i></a>
+              <ul id="portfolio-flters">
+                <li data-filter=".filter-1M"><a href="#">$100以下</a></li>
+                <li data-filter=".filter-3M"><a href="#">$100~$500</a></li>
+                <li data-filter=".filter-5M"><a href="#">$500以上</a></li>
+              </ul>
+            </li>
+            <li class="dropdown"><a href="#"><span>星級</span> <i class="bi bi-chevron-right"></i></a>
+              <ul id="portfolio-flters">
+                <li data-filter=".filter-1S"><a href="#">1星</a></li>
+                <li data-filter=".filter-3S"><a href="#">2~4星</a></li>
+                <li data-filter=".filter-5S"><a href="#">5星</a></li>
+              </ul>
+            </li>
+            <!--li class="dropdown"><a href="#"><span>國家</span> <i class="bi bi-chevron-right"></i></a>
+              <ul id="portfolio-flters">
+                <li data-filter=".filter-TW"><a href="#">臺灣</a></li>
+                <li data-filter=".filter-ID"><a href="#">印尼</a></li>
+              </ul>
+            </li-->
+          </ul>
+        </li>
+      <li><ul id="portfolio-flters"><li data-filter="*"><a href="#">重設</a></li></ul></li>
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+  </div>
+  
+    <!-- ======= Portfolio Section ======= -->
+    <section id="portfolio" class="portfolio">
+      <div class="container" data-aos="fade-up">
+  
+        <div class="section-title">
+          <h2>Restaurant Info</h2>
+          <p>餐廳資訊</p>
+        </div>
+  
+        <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
+          {%if r%}        
+          {%for r in data %}
+          <div class="col-md-6 col-lg-3 portfolio-item 
+            filter-{{ r.location }}
+            filter-{%if r.rated<=1 %}1S{%elif r.rated>=5%}5S{%else%}3S{%endif%}
+            filter-{%if r.money<=100 %}1M{%elif r.money>=500%}5M{%else%}3M{%endif%}">
+            
+            <input class="rated" type="hidden" value="{{r.rated}}">
+            <input class="money" type="hidden" value="{{r.money}}">
+            <input class="time" type="hidden" value="{{r.id}}">
+
+            <div class="portfolio-wrap">
+              <img src=
+                {%if r.image %}"data:image/jpeg;base64,{{(r.image).decode('ISO-8859-1')}}"
+                {%else%}"https://i.pinimg.com/564x/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.jpg" {%endif%}
+                class="img-fluid" alt="Photo of empty">
+              <div class="portfolio-links">
+                <a href={%if r.image %}"data:image/jpeg;base64,{{(r.image).decode('ISO-8859-1')}}"
+                  {%else%}"https://i.pinimg.com/564x/ae/8a/c2/ae8ac2fa217d23aadcc913989fcc34a2.jpg" {%endif%}
+                  data-gallery="portfolioGallery" class="portfolio-lightbox" title="{{r.title}}">
+                  <i class="bi bi-plus"></i>
+                </a>
+                <a href="/comment?title={{r.title}}" title="評論"><i class="bi bi-inbox"></i></a>
+                {% if current_user.is_authenticated%}
+                <a href="/r_alter?title={{r.title}}" title="修改"><i class="bi bi-pencil"></i></a>
+                <a onclick="if(confirm('確定刪除嗎?')){return location.href='/r_delete?title={{r.title}}';}" title="刪除"><i class="bi bi-trash"></i></a>
+                {%endif%}
+              </div>
+              <div class="portfolio-info">
+              </div>
+            </div>
+            <div class="kinfo">
+              <h4>{{r.title}}</h4>
+              <p>{{r.rated}}星★ ${{r.money}}</p>
+              <p>{{r.description}}</p>
+            </div>
+          </div>
+          {%endfor %}
+          {%endif%}
+        </div>
+  
+      </div>
+    </section><!-- End Portfolio Section -->
+
+  {% endblock content %}
